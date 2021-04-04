@@ -63,6 +63,11 @@ const productSchema = new mongoose.Schema({
       },
     },
   ],
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
   numOfReviews: {
     type: Number,
     default: 0,

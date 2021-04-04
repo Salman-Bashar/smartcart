@@ -1,21 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/git,node,react,windows,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=git,node,react,windows,visualstudiocode
-
-### Git ###
-# Created by git for backups. To disable backups in Git:
-# $ git config --global mergetool.keepBackup false
-*.orig
-
-# Created by git when using merge tools for conflicts
-*.BACKUP.*
-*.BASE.*
-*.LOCAL.*
-*.REMOTE.*
-*_BACKUP_*.txt
-*_BASE_*.txt
-*_LOCAL_*.txt
-*_REMOTE_*.txt
+# Created by https://www.toptal.com/developers/gitignore/api/windows,vscode,node
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,vscode,node
 
 ### Node ###
 # Logs
@@ -92,6 +77,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
+/backend/config/config.env
 .env
 .env.test
 .env*.local
@@ -143,29 +129,13 @@ dist/
 tmp/
 temp/
 
-### react ###
-.DS_*
-**/*.backup.*
-**/*.back.*
-
-node_modules
-
-*.sublime*
-
-psd
-thumb
-sketch
-
-### VisualStudioCode ###
+### vscode ###
 .vscode/*
+!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
+!.vscode/extensions.json
 *.code-workspace
-
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-.ionide
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -193,4 +163,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/git,node,react,windows,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/windows,vscode,node

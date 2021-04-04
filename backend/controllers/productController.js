@@ -5,6 +5,8 @@ const catchAsyncErrors = require("../middlewares/catchAsyncErrors")
 
 //Create a New Product  =>  /api/admin/product/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
+  req.body.user = req.user.id
+
   const product = await Product.create(req.body)
 
   res.status(201).json({
@@ -15,7 +17,7 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 
 //Show all Products from Database  =>  /api/products
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
-  const productPerPage = 2
+  const productPerPage = 10
   const productCount = await Product.countDocuments()
 
   const apiFeatures = new APIFeatures(Product.find(), req.query)

@@ -119,6 +119,52 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   sendToken(user, 200, res)
 })
 
+//User Profile  =>  /api/myprofile
+exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id)
+
+  res.status(200).json({
+    success: true,
+    user,
+  })
+})
+
+//Change or Update Password  =>  /api/password/update
+exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password")
+
+  //Check Old Password
+  const isMatched = await user.comparePassword(req.body.oldPassword)
+
+  if (!isMatched)
+    return next(new ErrorHandler("Old password is incorrect", 400))
+
+  user.password = req.body.password
+  user.save()
+
+  sendToken(user, 200, res)
+})
+
+//Update User Prifile  =>  /api/myprofile/update
+exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    name: req.body.name,
+    email: req.body.email,
+  }
+
+  //Update Avatar => TODO
+
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  })
+
+  res.status(200).json({
+    success: true,
+  })
+})
+
 //Logout a User  =>  /api/logout
 exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
   res.cookie("token", null, {
@@ -129,5 +175,67 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Logged Out",
+  })
+})
+
+//Get all Users  =>  /api/admin/users
+exports.getUsers = catchAsyncErrors(async (req, res, next) => {
+  const users = await User.find()
+
+  res.status(200).json({
+    success: true,
+    users,
+  })
+})
+
+//Get User Details  =>   /api/admin/user/:id
+exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id)
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`No user found with id: ${req.params.id}`, 404)
+    )
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  })
+})
+
+//Update User Role  =>  /api/admin/user/:id
+exports.updateUserRole = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    role: req.body.role,
+  }
+
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  })
+
+  res.status(200).json({
+    success: true,
+  })
+})
+
+//Delete User  =>  /api/admin/user/:id
+exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findById(req.params.id)
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`No user found with id: ${req.params.id}`, 404)
+    )
+  }
+
+  //Remove Avatar from Cloud DB => TODO
+
+  await user.remove()
+
+  res.status(200).json({
+    success: true,
   })
 })

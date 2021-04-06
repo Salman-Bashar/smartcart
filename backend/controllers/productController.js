@@ -15,7 +15,7 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
-//Show all Products from Database  =>  /api/products
+//Show all Products  =>  /api/products
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const productPerPage = 10
   const productCount = await Product.countDocuments()
@@ -35,7 +35,7 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
-//Show a Single Product Details from Database  =>  /api/product/:id
+//Show a Single Product Details  =>  /api/product/:id
 exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id)
 

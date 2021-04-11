@@ -23,7 +23,7 @@ router
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateProduct)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct)
 
-router.route("/products").get(isAuthenticatedUser, getProducts)
+router.route("/products").get(getProducts)
 
 router.route("/product/review").put(isAuthenticatedUser, reviewProduct)
 router

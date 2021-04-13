@@ -23,13 +23,19 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const apiFeatures = new APIFeatures(Product.find(), req.query)
     .search()
     .filter()
-    .pagination(productPerPage)
 
-  const products = await apiFeatures.query
+  let products = await apiFeatures.query
+  let filteredProductCount = products.length
+
+  apiFeatures.pagination(productPerPage)
+
+  products = await apiFeatures.query
 
   res.status(200).json({
     success: true,
     productCount,
+    productPerPage,
+    filteredProductCount,
     products,
   })
 })
@@ -74,7 +80,7 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: "Prudct deleted.",
+    message: "Product deleted.",
   })
 })
 

@@ -30,6 +30,7 @@ const ProductDetails = ({ match }) => {
         <Loader />
       ) : (
         <Fragment>
+          <MetaData title={product.name} />
           <div className='row f-flex justify-content-around'>
             <div className='col-12 col-lg-5 img-fluid' id='product_image'>
               <Carousel pause='hover'>
@@ -39,7 +40,7 @@ const ProductDetails = ({ match }) => {
                       <img
                         className='d-block w-100'
                         src={image.url}
-                        alt={product.title}
+                        alt={product.name}
                       />
                     </Carousel.Item>
                   ))}

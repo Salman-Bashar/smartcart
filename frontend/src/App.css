@@ -290,9 +290,15 @@ footer {
   margin: 0;
 }
 
+/* Chrome, Safari, Edge, Opera */
 .form-control:disabled,
 .form-control[readonly] {
   background-color: white;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* Login & Register */

@@ -21,7 +21,13 @@ const Product = ({ product, col }) => {
                 style={{ width: `${(product.ratings / 5) * 100}%` }}
               ></div>
             </div>
-            <span id='no_of_reviews'>({product.numOfReviews} Reviews)</span>
+            <span id='no_of_reviews'>
+              (
+              {product.numOfReviews > 1
+                ? `${product.numOfReviews} Reviews`
+                : `${product.numOfReviews} Review`}
+              )
+            </span>
           </div>
           <p className='card-text'>${product.price}</p>
           <Link

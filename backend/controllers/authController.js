@@ -3,10 +3,18 @@ const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors")
 const sendToken = require("../utils/jwtToken")
 const sendEmail = require("../utils/sendEmail")
+
 const crypto = require("crypto")
+const cloudinary = require("cloudinary")
 
 //Register a User  =>  /api/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "avatars",
+    width: 150,
+    crop: "scale",
+  })
+
   const { name, email, password } = req.body
 
   const user = await User.create({
@@ -14,8 +22,8 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     email,
     password,
     avatar: {
-      public_id: "demo-avatar-1",
-      url: "https://unsplash.com/photos/C8Ta0gwPbQg",
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   })
 
@@ -56,9 +64,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   await user.save({ validateBeforeSave: false })
 
   //Create Reset Password URL
-  const resetURL = `${req.protocol}://${req.get(
-    "host"
-  )}/api/password/reset/${resetToken}`
+  const resetURL = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
 
   const message = `Your password reset token is as followed:\n\n${resetURL}\n\nPlease ignore if you have not requested this email.\nHave a nice day!\n\n\nRegards,\nSmartCart Team`
 
@@ -152,7 +158,25 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     email: req.body.email,
   }
 
-  //Update Avatar => TODO
+  //Update Avatar
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user.id)
+
+    const image_id = user.avatar.public_id
+
+    const res = await cloudinary.v2.uploader.destroy(image_id)
+
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    })
+
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    }
+  }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,

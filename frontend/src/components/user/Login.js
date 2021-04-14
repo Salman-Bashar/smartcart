@@ -8,7 +8,7 @@ import Loader from "../layout/Loader"
 
 import { login, clearErrors } from "../../actions/userActions"
 
-const Login = ({ history }) => {
+const Login = ({ history, location }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -19,14 +19,16 @@ const Login = ({ history }) => {
     (state) => state.auth
   )
 
+  const redirect = location.search ? location.search.split("=")[1] : "/"
+
   useEffect(() => {
-    if (isAuthenticatedUser) history.push("/")
+    if (isAuthenticatedUser) history.push(redirect)
 
     if (error) {
       alert.error(error)
       dispatch(clearErrors())
     }
-  }, [dispatch, alert, isAuthenticatedUser, error, history])
+  }, [dispatch, alert, isAuthenticatedUser, error, history, redirect])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -53,6 +55,8 @@ const Login = ({ history }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  <label>Normal User: demouser01@gmail.com</label>
+                  <label>Admin User: admin@gmail.com</label>
                 </div>
 
                 <div className='form-group'>
@@ -64,6 +68,8 @@ const Login = ({ history }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  <label>Normal User: demouser001</label>
+                  <label>Admin User: adminpass</label>
                 </div>
 
                 <Link to='/password/forgot' className='float-right mb-4'>

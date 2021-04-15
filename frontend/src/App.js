@@ -26,6 +26,9 @@ import ConfirmOrder from "./components/cart/ConfirmOrder"
 import Payment from "./components/cart/Payment"
 import OrderSuccess from "./components/cart/OrderSuccess"
 
+import ListOrders from "./components/order/ListOrders"
+import OrderDetails from "./components/order/OrderDetails"
+
 import ProtectedRoute from "./components/route/ProtectedRoute"
 import { loadUser } from "./actions/userActions"
 import store from "./store"
@@ -83,6 +86,8 @@ function App() {
             </Elements>
           )}
           <ProtectedRoute path='/success' component={OrderSuccess} />
+
+          <ProtectedRoute path='/orders/myorders' component={ListOrders} />
         </div>
         <Footer />
       </div>
@@ -91,3 +96,5 @@ function App() {
 }
 
 export default App
+
+// <ProtectedRoute path='/order/:id' component={OrderDetails} />

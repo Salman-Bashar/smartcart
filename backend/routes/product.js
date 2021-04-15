@@ -3,6 +3,7 @@ const router = express.Router()
 
 const {
   getProducts,
+  getAdminProducts,
   getSingleProduct,
   newProduct,
   updateProduct,
@@ -24,6 +25,10 @@ router
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteProduct)
 
 router.route("/products").get(getProducts)
+
+router
+  .route("/admin/products")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), getAdminProducts)
 
 router.route("/product/review").put(isAuthenticatedUser, reviewProduct)
 router

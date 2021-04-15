@@ -50,7 +50,7 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
-//Get All Orders [for Logged in User]  =>  /api/orders/myorders
+//Get All Orders [Logged in User]  =>  /api/orders/myorders
 exports.getMyOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find({ user: req.user.id })
 
@@ -60,7 +60,7 @@ exports.getMyOrders = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
-//Get All Orders [for Admin]  =>  /api/admin/orders
+//Get All Orders [Admin]  =>  /api/admin/orders
 exports.getAllOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find()
 

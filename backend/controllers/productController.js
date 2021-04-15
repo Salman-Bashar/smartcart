@@ -15,7 +15,7 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
-//Show all Products  =>  /api/products
+//Show all Products to Regular User  =>  /api/products
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const productPerPage = 12
   const productCount = await Product.countDocuments()
@@ -36,6 +36,16 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
     productCount,
     productPerPage,
     filteredProductCount,
+    products,
+  })
+})
+
+//Show all Products to Admin User =>  /api/admin/products
+exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+  const products = await Product.find()
+
+  res.status(200).json({
+    success: true,
     products,
   })
 })
